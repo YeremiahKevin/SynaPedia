@@ -13,6 +13,12 @@ type Usecase interface {
 	Login(ctx context.Context, username string, password string) (usecase.LoginResponse, error)
 
 	Register(ctx context.Context, param usecase.RegisterRequest) error
+
+	AddToCart(ctx context.Context, param usecase.AddToCartRequest) error
+
+	DeleteFromCart(ctx context.Context, cartID int64) error
+
+	GetCartList(ctx context.Context, userID int64) ([]usecase.Cart, error)
 }
 
 type Handler struct {

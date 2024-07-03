@@ -15,3 +15,9 @@ type RegisterRequest struct {
 	Password string `json:"password"`
 	FullName string `json:"full_name"`
 }
+
+type AddToCartRequest struct {
+	UserID       int64 `json:"user_id"`
+	ProductSkuID int64 `json:"product_sku_id"`
+	Quantity     int64 `json:"quantity"`
+}

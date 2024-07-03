@@ -13,6 +13,12 @@ type Repository interface {
 	Login(ctx context.Context, username string, password string) (repository.LoginResponse, error)
 
 	Register(ctx context.Context, param repository.RegisterRequest) error
+
+	AddToCart(ctx context.Context, param repository.AddToCartRequest) error
+
+	DeleteFromCart(ctx context.Context, cartID int64) error
+
+	GetCartList(ctx context.Context, userID int64) ([]repository.Cart, error)
 }
 
 type Usecase struct {

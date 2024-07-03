@@ -25,6 +25,9 @@ func main() {
 	http.HandleFunc("/product-list", serv.GetProductList)
 	http.HandleFunc("/login", serv.Login)
 	http.HandleFunc("/register", serv.Register)
+	http.HandleFunc("/add-to-cart", serv.AddToCart)
+	http.HandleFunc("/delete-from-cart", serv.DeleteFromCart)
+	http.HandleFunc("/cart-list", serv.GetCartList)
 
 	http.ListenAndServe(":8090", nil)
 }
