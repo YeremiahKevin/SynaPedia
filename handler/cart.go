@@ -19,7 +19,7 @@ func (handler *Handler) AddToCart(w http.ResponseWriter, req *http.Request) {
 	var body AddToCartRequest
 	err := json.NewDecoder(req.Body).Decode(&body)
 	if err != nil {
-		log.Println("Handler Register json.NewDecoder err: " + err.Error())
+		log.Println("Handler AddToCart json.NewDecoder err: " + err.Error())
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}

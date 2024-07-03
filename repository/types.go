@@ -24,3 +24,19 @@ type Cart struct {
 	Price        int64  `db:"price"`
 	Stock        int64  `db:"stock"`
 }
+
+type CreateOrderRequest struct {
+	UserID        int64 `db:"user_id"`
+	UserAddressID int64 `db:"user_address_id"`
+	TotalPrice    int64 `db:"total_price"`
+	OrderDetails  []OrderDetail
+	PaymentID     int64 `db:"payment_id"`
+	Amount        int64 `db:"amount"`
+	Status        int64 `db:"status"`
+}
+
+type OrderDetail struct {
+	ProductSkuID int64 `db:"product_sku_id"`
+	Quantity     int64 `db:"quantity"`
+	Price        int64 `db:"price"`
+}

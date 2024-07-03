@@ -19,6 +19,8 @@ type Repository interface {
 	DeleteFromCart(ctx context.Context, cartID int64) error
 
 	GetCartList(ctx context.Context, userID int64) ([]repository.Cart, error)
+
+	CreateOrder(ctx context.Context, param repository.CreateOrderRequest) error
 }
 
 type Usecase struct {

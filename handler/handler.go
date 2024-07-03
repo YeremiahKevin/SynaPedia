@@ -19,6 +19,8 @@ type Usecase interface {
 	DeleteFromCart(ctx context.Context, cartID int64) error
 
 	GetCartList(ctx context.Context, userID int64) ([]usecase.Cart, error)
+
+	CreateOrder(ctx context.Context, param usecase.CreateOrderRequest) error
 }
 
 type Handler struct {

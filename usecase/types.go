@@ -34,3 +34,17 @@ type Cart struct {
 	Price        int64  `json:"price"`
 	Stock        int64  `json:"stock"`
 }
+
+type CreateOrderRequest struct {
+	UserID        int64
+	UserAddressID int64
+	OrderDetails  []OrderDetail
+	PaymentID     int64
+	Amount        int64
+}
+
+type OrderDetail struct {
+	ProductSkuID int64
+	Quantity     int64
+	Price        int64
+}

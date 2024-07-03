@@ -4,8 +4,10 @@ import (
 	"SynaPedia/usecase"
 	"context"
 	"encoding/json"
+	"github.com/kataras/jwt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -30,11 +32,22 @@ func (handler *Handler) Login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	var token string
+	if result.IsAllowed {
+		tokenByte, _ := jwt.Sign(jwt.HS256, []byte(os.Getenv("JWT_KEY")), map[string]interface{}{
+			"username": body.Username,
+		}, jwt.MaxAge(60*time.Minute))
+		token = string(tokenByte)
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	response := GeneralResponse{
 		Status: "Success",
-		Data:   result,
+		Data: map[string]interface{}{
+			"token":      token,
+			"is_allowed": result.IsAllowed,
+		},
 	}
 	_ = json.NewEncoder(w).Encode(response)
 
