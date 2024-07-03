@@ -23,6 +23,8 @@ func main() {
 	serv := handler.NewHandler(uc)
 
 	http.HandleFunc("/product-list", serv.GetProductList)
+	http.HandleFunc("/login", serv.Login)
+	http.HandleFunc("/register", serv.Register)
 
 	http.ListenAndServe(":8090", nil)
 }

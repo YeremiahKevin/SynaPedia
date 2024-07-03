@@ -22,7 +22,7 @@ func (handler *Handler) GetProductList(w http.ResponseWriter, req *http.Request)
 
 	ctxHandler, _ := context.WithTimeout(context.Background(), time.Duration(time.Minute*1))
 
-	result, err := handler.Product.GetProductList(ctxHandler, productCategoryID)
+	result, err := handler.Usecase.GetProductList(ctxHandler, productCategoryID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

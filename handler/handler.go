@@ -6,17 +6,21 @@ import (
 	"SynaPedia/usecase"
 )
 
-// ProductUsecase represents interface of product that needed in usecase
-type ProductUsecase interface {
+// Usecase represents interface of usecase that needed in handler
+type Usecase interface {
 	GetProductList(ctx context.Context, productCategoryID int64) ([]usecase.Product, error)
+
+	Login(ctx context.Context, username string, password string) (usecase.LoginResponse, error)
+
+	Register(ctx context.Context, param usecase.RegisterRequest) error
 }
 
 type Handler struct {
-	Product ProductUsecase
+	Usecase Usecase
 }
 
-func NewHandler(product ProductUsecase) *Handler {
+func NewHandler(usecase Usecase) *Handler {
 	return &Handler{
-		Product: product,
+		Usecase: usecase,
 	}
 }

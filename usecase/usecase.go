@@ -6,17 +6,21 @@ import (
 	"SynaPedia/repository"
 )
 
-// ProductRepository represents interface of product that needed in usecase
-type ProductRepository interface {
+// Repository represents interface of repository that needed in usecase
+type Repository interface {
 	GetProductList(ctx context.Context, productCategoryID int64) ([]repository.Product, error)
+
+	Login(ctx context.Context, username string, password string) (repository.LoginResponse, error)
+
+	Register(ctx context.Context, param repository.RegisterRequest) error
 }
 
 type Usecase struct {
-	Product ProductRepository
+	Repository Repository
 }
 
-func NewUsecase(product ProductRepository) *Usecase {
+func NewUsecase(repository Repository) *Usecase {
 	return &Usecase{
-		Product: product,
+		Repository: repository,
 	}
 }

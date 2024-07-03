@@ -9,7 +9,7 @@ func (repository *Repository) GetProductList(ctx context.Context, productCategor
 	var productList []Product
 
 	if productCategoryID == 0 {
-		queryResult, err := db.Query("SELECT product_id, product_category_id, product_name, description FROM product")
+		queryResult, err := db.QueryContext(ctx, "SELECT product_id, product_category_id, product_name, description FROM product")
 		if err != nil {
 			log.Println("Repository GetProductList db.Query err: ", err)
 		}
