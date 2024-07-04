@@ -38,7 +38,7 @@ func main() {
 	http.Handle("/cart-list", middleware(http.HandlerFunc(serv.GetCartList)))
 	http.Handle("/create-order", middleware(http.HandlerFunc(serv.CreateOrder)))
 
-	http.ListenAndServe(":8090", nil)
+	http.ListenAndServe(":8080", nil)
 }
 
 // middleware is a function to intercept HTTP request

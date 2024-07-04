@@ -80,7 +80,7 @@ Authentication is handled using JWT tokens. This ensures secure and stateless us
     ```
 
 2. **Server:**
-   The HTTP server will listen on port `8090`.
+   The HTTP server will listen on port `8080`.
 
 3. **API Endpoints:**
    Use tools like Postman or cURL to interact with the API. Detailed API documentation will be provided in a separate file (e.g., `API_DOCS.md`).
