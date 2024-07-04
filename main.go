@@ -1,15 +1,20 @@
 package main
 
 import (
-	"SynaPedia/handler"
-	"SynaPedia/repository"
-	"SynaPedia/usecase"
-	"github.com/joho/godotenv"
-	"github.com/kataras/jwt"
+	// golang package
 	"log"
 	"net/http"
 	"os"
 	"strings"
+
+	// external package
+	"github.com/joho/godotenv"
+	"github.com/kataras/jwt"
+
+	// internal package
+	"SynaPedia/handler"
+	"SynaPedia/repository"
+	"SynaPedia/usecase"
 )
 
 func main() {
@@ -25,7 +30,7 @@ func main() {
 	uc := usecase.NewUsecase(repo)
 	serv := handler.NewHandler(uc)
 
-	http.Handle("/product-list", middleware(http.HandlerFunc(serv.GetProductList)))
+	http.Handle("/product-list", http.HandlerFunc(serv.GetProductList))
 	http.Handle("/login", http.HandlerFunc(serv.Login))
 	http.Handle("/register", http.HandlerFunc(serv.Register))
 	http.Handle("/add-to-cart", middleware(http.HandlerFunc(serv.AddToCart)))
@@ -36,6 +41,10 @@ func main() {
 	http.ListenAndServe(":8090", nil)
 }
 
+// middleware is a function to intercept HTTP request
+// get authorization token from header and check validity
+// it returns function http.Handler when token valid
+// otherwise it returns error unauthorized
 func middleware(nextHandler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		reqToken := req.Header.Get("Authorization")

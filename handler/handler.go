@@ -1,8 +1,10 @@
 package handler
 
 import (
+	// golang package
 	"context"
 
+	// internal package
 	"SynaPedia/usecase"
 )
 

@@ -1,0 +1,173 @@
+swagger: '2.0'
+info:
+  contact: {}
+  title: SynaPedia
+  version: 1.0.0
+basePath: /
+paths:
+  /add-to-cart:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            properties:
+              product_sku_id:
+                example: 1
+                type: number
+              quantity:
+                example: 3
+                type: number
+              user_id:
+                example: 1
+                type: number
+            type: object
+      responses:
+        '200':
+          description: ''
+      description: Add To Cart
+      operationId: addToCart
+      summary: Add To Cart
+  /cart-list:
+    get:
+      consumes:
+        - text/plain
+      parameters:
+        - in: query
+          name: user_id
+          type: string
+        - in: body
+          name: body
+          schema:
+            format: binary
+            type: string
+      responses:
+        '200':
+          description: ''
+      description: Cart List
+      operationId: cartList
+      summary: Cart List
+  /create-order:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            properties:
+              amount:
+                example: 6000000
+                type: number
+              order_details:
+                example:
+                  - cart_id: 2
+                    price: 6000000
+                    product_sku_id: 1
+                    quantity: 1
+                items:
+                  properties:
+                    cart_id:
+                      example: 2
+                      type: number
+                    price:
+                      example: 6000000
+                      type: number
+                    product_sku_id:
+                      example: 1
+                      type: number
+                    quantity:
+                      example: 1
+                      type: number
+                  type: object
+                type: array
+              payment_id:
+                example: 1
+                type: number
+              user_address_id:
+                example: 1
+                type: number
+              user_id:
+                example: 1
+                type: number
+            type: object
+      responses:
+        '200':
+          description: ''
+      description: Create Order
+      operationId: createOrder
+      summary: Create Order
+  /delete-from-cart:
+    delete:
+      parameters:
+        - in: query
+          name: cart_id
+          type: string
+      responses:
+        '200':
+          description: ''
+      description: Delete From Cart
+      operationId: deleteFromCart
+      summary: Delete From Cart
+  /login:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            properties:
+              password:
+                example: password
+                type: string
+              username:
+                example: yeremiahkevin
+                type: string
+            type: object
+      responses:
+        '200':
+          description: ''
+      description: Login
+      operationId: login
+      summary: Login
+  /product-list:
+    get:
+      parameters:
+        - in: header
+          name: ''
+          type: string
+      responses:
+        '200':
+          description: ''
+      description: Product List
+      operationId: productList
+      summary: Product List
+  /register:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            properties:
+              full_name:
+                example: Yeremiah Kevin
+                type: string
+              password:
+                example: password
+                type: string
+              username:
+                example: yeremiahkevin
+                type: string
+            type: object
+      responses:
+        '200':
+          description: ''
+      description: Register
+      operationId: register
+      summary: Register
+tags: []

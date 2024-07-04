@@ -8,6 +8,23 @@ type Product struct {
 	Description       string `db:"description"`
 }
 
+type LoginResponse struct {
+	IsAllowed bool
+}
+
+type User struct {
+	UserID   int64  `db:"user_id"`
+	Username string `db:"username"`
+	Password string `db:"password"`
+	FullName string `db:"full_name"`
+}
+
+type RegisterRequest struct {
+	Username string
+	Password string
+	FullName string
+}
+
 type AddToCartRequest struct {
 	UserID       int64 `db:"user_id"`
 	ProductSkuID int64 `db:"product_id"`

@@ -1,12 +1,17 @@
 package repository
 
 import (
+	// golang package
 	"context"
 	"fmt"
 	"log"
 	"time"
 )
 
+// CreateOrder is a function to insert new data in order, order_detail, and order_payment
+// it accepts context.Context and CreateOrderRequest as parameters
+// it returns nil error when success
+// otherwise it returns detailed error
 func (repository *Repository) CreateOrder(ctx context.Context, param CreateOrderRequest) error {
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
@@ -18,7 +23,7 @@ func (repository *Repository) CreateOrder(ctx context.Context, param CreateOrder
 
 	resultOrder, err := tx.ExecContext(ctx, `INSERT INTO "order"(user_id, user_address_id, total_price, created_at) VALUES($1, $2, $3, $4)`, param.UserID, param.UserAddressID, param.TotalPrice, time.Now())
 	if err != nil {
-		log.Println("Repository CreateOrder db.ExecContext err: ", err)
+		log.Println("Repository CreateOrder tx.ExecContext err: ", err)
 		return fmt.Errorf("failed to create order: %s", err.Error())
 	}
 
@@ -31,14 +36,14 @@ func (repository *Repository) CreateOrder(ctx context.Context, param CreateOrder
 	for i := 0; i < len(param.OrderDetails); i++ {
 		_, err = tx.ExecContext(ctx, `INSERT INTO order_detail(order_id, product_sku_id, quantity, price, created_at) VALUES($1, $2, $3, $4, $5)`, orderID, param.OrderDetails[i].ProductSkuID, param.OrderDetails[i].Quantity, param.OrderDetails[i].Price, time.Now())
 		if err != nil {
-			log.Println("Repository CreateOrder db.ExecContext err: ", err)
+			log.Println("Repository CreateOrder tx.ExecContext err: ", err)
 			return fmt.Errorf("failed to create order detail: %s", err.Error())
 		}
 	}
 
 	_, err = tx.ExecContext(ctx, `INSERT INTO order_payment(order_id, payment_id, amount, status, created_at) VALUES($1, $2, $3, $4, $5)`, orderID, param.PaymentID, param.Amount, param.Status, time.Now())
 	if err != nil {
-		log.Println("Repository CreateOrder db.ExecContext err: ", err)
+		log.Println("Repository CreateOrder tx.ExecContext err: ", err)
 		return fmt.Errorf("failed to create order payment: %s", err.Error())
 	}
 

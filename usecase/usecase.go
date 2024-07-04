@@ -1,8 +1,10 @@
 package usecase
 
 import (
+	// golang package
 	"context"
 
+	// internal package
 	"SynaPedia/repository"
 )
 

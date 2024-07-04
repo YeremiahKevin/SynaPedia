@@ -1,19 +1,28 @@
 package handler
 
 import (
-	"SynaPedia/usecase"
+	// golang package
 	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"time"
+
+	// internal package
+	"SynaPedia/usecase"
 )
 
+// CreateOrder is a function to handle create new order request
+// it accepts http.ResponseWriter and pointer of http.Request as parameters
+// it returns status code 200 when success
+// otherwise it returns status code 400 when request invalid or status code 500 when error occurs
 func (handler *Handler) CreateOrder(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
+
+	ctxHandler, _ := context.WithTimeout(context.Background(), time.Duration(time.Minute*1))
 
 	var body CreateOrderRequest
 	err := json.NewDecoder(req.Body).Decode(&body)
@@ -22,8 +31,6 @@ func (handler *Handler) CreateOrder(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	ctxHandler, _ := context.WithTimeout(context.Background(), time.Duration(time.Minute*1))
 
 	orderDetails := make([]usecase.OrderDetail, len(body.OrderDetails))
 	for i, detail := range body.OrderDetails {

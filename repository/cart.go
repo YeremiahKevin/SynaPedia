@@ -1,12 +1,17 @@
 package repository
 
 import (
+	// golang package
 	"context"
 	"fmt"
 	"log"
 	"time"
 )
 
+// AddToCart is a function to insert new data in a cart
+// it accepts context.Context and AddToCartRequest as parameters
+// it returns nil error when success
+// otherwise it returns detailed error
 func (repository *Repository) AddToCart(ctx context.Context, param AddToCartRequest) error {
 	_, err := db.ExecContext(ctx, `INSERT INTO cart(user_id, product_sku_id, quantity, created_at) VALUES($1, $2, $3, $4)`, param.UserID, param.ProductSkuID, param.Quantity, time.Now())
 	if err != nil {
@@ -17,6 +22,10 @@ func (repository *Repository) AddToCart(ctx context.Context, param AddToCartRequ
 	return nil
 }
 
+// DeleteFromCart is a function to delete existing data in a cart
+// it accepts context.Context and int64 as parameters
+// it returns nil error when success
+// otherwise it returns detailed error
 func (repository *Repository) DeleteFromCart(ctx context.Context, cartID int64) error {
 	_, err := db.ExecContext(ctx, `UPDATE cart
 										SET deleted_at = $1
@@ -29,6 +38,10 @@ func (repository *Repository) DeleteFromCart(ctx context.Context, cartID int64) 
 	return nil
 }
 
+// GetCartList is a function to get user data in a cart
+// it accepts context.Context and int64 as parameters
+// it returns nil error when success
+// otherwise it returns detailed error
 func (repository *Repository) GetCartList(ctx context.Context, userID int64) ([]Cart, error) {
 	var cartList []Cart
 
@@ -50,7 +63,7 @@ func (repository *Repository) GetCartList(ctx context.Context, userID int64) ([]
 													WHERE cart.user_id = $1
 													  AND cart.deleted_at ISNULL`, userID)
 	if err != nil {
-		log.Println("Repository GetCartList db.Query err: ", err)
+		log.Println("Repository GetCartList db.QueryContext err: ", err)
 		return nil, fmt.Errorf("failed to get cart list data: %s", err.Error())
 	}
 

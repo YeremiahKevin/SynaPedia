@@ -23,15 +23,16 @@ type AddToCartRequest struct {
 }
 
 type CreateOrderRequest struct {
-	UserID        int64
-	UserAddressID int64
-	OrderDetails  []OrderDetail
-	PaymentID     int64
-	Amount        int64
+	UserID        int64         `json:"user_id"`
+	UserAddressID int64         `json:"user_address_id"`
+	OrderDetails  []OrderDetail `json:"order_details"`
+	PaymentID     int64         `json:"payment_id"`
+	Amount        int64         `json:"amount"`
 }
 
 type OrderDetail struct {
-	ProductSkuID int64
-	Quantity     int64
-	Price        int64
+	CartID       int64 `json:"cart_id"`
+	ProductSkuID int64 `json:"product_sku_id"`
+	Quantity     int64 `json:"quantity"`
+	Price        int64 `json:"price"`
 }

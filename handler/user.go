@@ -1,33 +1,44 @@
 package handler
 
 import (
-	"SynaPedia/usecase"
+	// golang package
 	"context"
 	"encoding/json"
-	"github.com/kataras/jwt"
 	"log"
 	"net/http"
 	"os"
 	"time"
+
+	// external package
+	"github.com/kataras/jwt"
+
+	// internal package
+	"SynaPedia/usecase"
 )
 
+// Login is a function to handle user login request
+// it accepts http.ResponseWriter and pointer of http.Request as parameters
+// it returns status code 200 when success
+// otherwise it returns status code 400 when request invalid or status code 500 when error occurs
 func (handler *Handler) Login(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
+	ctxHandler, _ := context.WithTimeout(context.Background(), time.Duration(time.Minute*1))
+
 	var body LoginRequest
 	err := json.NewDecoder(req.Body).Decode(&body)
 	if err != nil {
+		log.Println("Handler Login json.NewDecoder err: ", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	ctxHandler, _ := context.WithTimeout(context.Background(), time.Duration(time.Minute*1))
-
 	result, err := handler.Usecase.Login(ctxHandler, body.Username, body.Password)
 	if err != nil {
+		log.Println("Handler Login handler.Usecase.Login err: ", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -54,12 +65,18 @@ func (handler *Handler) Login(w http.ResponseWriter, req *http.Request) {
 	return
 }
 
+// Register is a function to handle register new user request
+// it accepts http.ResponseWriter and pointer of http.Request as parameters
+// it returns status code 200 when success
+// otherwise it returns status code 400 when request invalid or status code 500 when error occurs
 func (handler *Handler) Register(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodPost {
 		log.Println("Handler Register req.Method err: " + req.Method)
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
+
+	ctxHandler, _ := context.WithTimeout(context.Background(), time.Duration(time.Minute*1))
 
 	var body RegisterRequest
 	err := json.NewDecoder(req.Body).Decode(&body)
@@ -68,8 +85,6 @@ func (handler *Handler) Register(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	ctxHandler, _ := context.WithTimeout(context.Background(), time.Duration(time.Minute*1))
 
 	err = handler.Usecase.Register(ctxHandler, usecase.RegisterRequest(body))
 	if err != nil {

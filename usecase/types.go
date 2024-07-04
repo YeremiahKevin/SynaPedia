@@ -44,6 +44,7 @@ type CreateOrderRequest struct {
 }
 
 type OrderDetail struct {
+	CartID       int64
 	ProductSkuID int64
 	Quantity     int64
 	Price        int64

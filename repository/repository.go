@@ -1,11 +1,14 @@
 package repository
 
 import (
+	// golang package
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
 	"log"
 	"os"
+
+	// external package
+	_ "github.com/lib/pq"
 )
 
 var db *sql.DB
