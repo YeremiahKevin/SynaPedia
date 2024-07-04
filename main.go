@@ -9,6 +9,7 @@ import (
 
 	// external package
 	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/kataras/jwt"
 
 	// internal package
@@ -23,7 +24,7 @@ func main() {
 	// load .env file
 	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatalf("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 
 	repo := repository.NewRepository()
